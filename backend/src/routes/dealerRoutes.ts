@@ -21,6 +21,7 @@ router.put('/location', requireDealerAuth, validateRequest(UpdateLocationSchema)
 router.patch('/status', requireDealerAuth, validateRequest(SetStatusSchema), DealerController.setStatus);
 router.get('/prices', requireDealerAuth, DealerController.getPrices);
 router.put('/prices', requireDealerAuth, validateRequest(UpdatePricesSchema), DealerController.updatePrices);
+router.post('/products', requireDealerAuth, DealerController.listRecycledProduct);
 
 // Public single dealer lookup by ID (wildcard at end)
 router.get('/:dealerId', DealerController.getPublicDealerById);

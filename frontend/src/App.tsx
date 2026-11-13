@@ -13,6 +13,7 @@ import { MaterialPricesScreen } from './pages/MaterialPricesScreen';
 import { ActiveJobScreen } from './pages/ActiveJobScreen';
 import { OrderHistoryScreen } from './pages/OrderHistoryScreen';
 import { ProfileScreen } from './pages/ProfileScreen';
+import { RecyclerProductsScreen } from './pages/RecyclerProductsScreen';
 
 // Modals
 import { IncomingRequestModal } from './components/order/IncomingRequestModal';
@@ -129,6 +130,14 @@ export const AppContent: React.FC = () => {
           element={
             <ProtectedRoute>
               <MaterialPricesScreen />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute>
+              <RecyclerProductsScreen />
             </ProtectedRoute>
           }
         />

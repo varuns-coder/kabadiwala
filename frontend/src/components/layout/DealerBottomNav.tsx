@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Truck, IndianRupee, Clock, User, Navigation } from 'lucide-react';
+import { Truck, IndianRupee, Clock, User, Navigation, ShoppingBag } from 'lucide-react';
 import { useDealerOrder } from '../../context/DealerOrderContext';
 
 export const DealerBottomNav: React.FC = () => {
@@ -46,13 +46,25 @@ export const DealerBottomNav: React.FC = () => {
         <NavLink
           to="/prices"
           className={({ isActive }) =>
-            `flex flex-col items-center py-1 px-3 rounded-lg text-xs font-semibold transition ${
+            `flex flex-col items-center py-1 px-2.5 rounded-lg text-xs font-semibold transition ${
               isActive ? 'text-emerald-700 font-bold' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
           <IndianRupee className="w-5 h-5 mb-0.5" />
           <span>My Rates</span>
+        </NavLink>
+
+        <NavLink
+          to="/products"
+          className={({ isActive }) =>
+            `flex flex-col items-center py-1 px-2.5 rounded-lg text-xs font-semibold transition ${
+              isActive ? 'text-emerald-700 font-bold' : 'text-slate-500 hover:text-slate-800'
+            }`
+          }
+        >
+          <ShoppingBag className="w-5 h-5 mb-0.5" />
+          <span>Recycled</span>
         </NavLink>
 
         <NavLink

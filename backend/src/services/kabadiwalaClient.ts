@@ -188,5 +188,25 @@ export class KabadiwalaClient {
       return false;
     }
   }
+
+  /**
+   * Sync newly listed recycled product to Kabadiwala consumer marketplace
+   */
+  static async syncRecycledProduct(productData: any): Promise<boolean> {
+    try {
+      await axios.post(
+        `${config.kabadiwalaApiUrl}/internal/dealer-events/products`,
+        productData,
+        {
+          headers: this.getHeaders(),
+          timeout: 5000,
+        }
+      );
+      return true;
+    } catch (err: any) {
+      console.warn(`⚠️ [Kabadiwala Cross-App Sync] Product listing sync warning (${err.message}).`);
+      return false;
+    }
+  }
 }
 

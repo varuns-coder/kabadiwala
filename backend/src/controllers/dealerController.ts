@@ -254,4 +254,66 @@ export class DealerController {
       next(error);
     }
   }
+
+  /**
+   * Recycler / Dealer lists a new recycled product for the marketplace
+   */
+  static async listRecycledProduct(
+    req: AuthenticatedDealerRequest,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    try {
+      const dealer = req.dealer!;
+      const {
+        name,
+        description,
+        category,
+        images,
+        originalPrice,
+        discountedPrice,
+        maxRewardCoins,
+        stock,
+        specifications,
+      } = req.body;
+
+      const productPayload = {
+        productId: `REC-${dealer.dealerId.replace(/[^A-Z0-9]/gi, '')}-${Date.now().toString(36).toUpperCase()}`,
+        recyclerId: dealer.dealerId,
+        recyclerName: dealer.businessName || 'Certified Recycler Partner',
+        recyclerLocation: {
+          address: dealer.location?.address || 'Service Hub',
+          city: 'Delhi NCR',
+          rating: dealer.rating || 4.9,
+        },
+        name,
+        description,
+        category,
+        images: images && images.length > 0 ? images : ['https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=800&q=80'],
+        originalPrice: Number(originalPrice),
+        discountedPrice: Number(discountedPrice),
+        maxRewardCoins: maxRewardCoins !== undefined ? Number(maxRewardCoins) : Math.min(Math.floor(Number(discountedPrice) * 0.25), 200),
+        stock: Number(stock) || 5,
+        specifications: specifications || [],
+        isActive: true,
+        isApproved: true,
+      };
+
+      const synced = await KabadiwalaClient.syncRecycledProduct(productPayload);
+
+      res.status(201).json({
+        success: true,
+        message: 'Recycled product listed and published to consumer marketplace',
+        data: {
+          ...productPayload,
+          syncedToMarketplace: synced,
+        },
+      });
+    } catch (error: any) {
+      res.status(400).json({
+        success: false,
+        message: error.message || 'Failed to list recycled product',
+      });
+    }
+  }
 }
